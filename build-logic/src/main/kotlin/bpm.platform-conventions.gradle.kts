@@ -3,7 +3,7 @@ plugins {
   id("net.kyori.indra.git")
 }
 
-val platformExtension = extensions.create<BPMPlatformExtension>("miniMOTDPlatform", project)
+val platformExtension = extensions.create<BPMPlatformExtension>("bpmPlatform", project)
 
 tasks {
   val copyJar = register<FileCopyTask>("copyJar") {

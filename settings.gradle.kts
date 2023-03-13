@@ -51,12 +51,19 @@ plugins {
 rootProject.name = "BedrockPlayerManager"
 
 
-// It's import to have the common project first, so that the common module is loaded first
-include("${rootProject.name}-common")
-project(":${rootProject.name}-common").projectDir = file("common")
+sequenceOf(
+        "common",
+        "universal"
+).forEach { setupSubproject(it) }
+
 
 // Now we can include the platform projects
 
+
+inline fun setupSubproject(name: String) {
+    include("${rootProject.name}-$name")
+    project(":${rootProject.name}-$name").projectDir = file(name)
+}
 sequenceOf(
         "bukkit",
 //        "fabric",

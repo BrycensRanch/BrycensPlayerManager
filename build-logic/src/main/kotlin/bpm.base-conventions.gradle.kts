@@ -42,3 +42,26 @@ tasks {
     }
   }
 }
+// Automatically apply Java versioning conventions and have it comply with Semantic Versioning
+// Our versioning scheme is: MAJOR.MINOR.PATCH-QUALIFIER
+// MAJOR: Major changes to the plugin, such as a complete rewrite
+// MINOR: Minor changes to the plugin, such as new features
+// PATCH: Bug fixes
+// QUALIFIER: A qualifier to the version, such as alpha, beta, or release candidate
+// The version is governed from our CI server, and is automatically incremented.
+// The CI should never run this.
+//String version = rootProject.property("version") as String?
+//if (System.getenv("CI") == null && rootProject.property("DO_NOT_CHANGE_VERSION") != "true") {
+//    if (version == null || version == "") {
+//        version = "SNAPSHOT"
+//    } else if (gitBranchName.contains("alpha") || gitBranchName.contains("beta") || gitBranchName.contains("rc")) {
+//        version = version + "-SNAPSHOT"
+//    } else {
+//        version = version
+//    }
+//}
+//println("Version: " + version)
+//// The current version based on the most recent tag on the current git branch.
+//// Doesn"t mean anything, just a nice to have.
+//println("Git Version: " + gitVersion)
+//println("Branch: " + gitBranchName)

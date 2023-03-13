@@ -24,14 +24,26 @@ tasks {
     commonRelocation("org.bstats")
     commonRelocation("io.papermc.lib")
   }
+  processResources {
+    val replacements = mapOf(
+      "modid" to project.name,
+      "name" to rootProject.name,
+      "version" to project.version.toString(),
+      "description" to project.description.toString(),
+      "github_url" to Constants.GITHUB_URL
+    )
+    inputs.properties(replacements)
+    filesMatching("plugin.yml") {
+      expand(replacements)
+    }
+  }
 }
-
 //bukkit {
 //  name = rootProject.name
 //  main = "xyz.jpenilla.minimotd.bukkit.MiniMOTDPlugin"
 //  apiVersion = "1.13"
 //  website = Constants.GITHUB_URL
-//  authors = listOf("jmp")
+//  author = "jmp"
 //  softDepend = listOf("ViaVersion")
 //  commands {
 //    register("minimotd") {

@@ -1,0 +1,6 @@
+name: ${name}
+main: xyz.jpenilla.minimotd.bukkit.MiniMOTDPlugin
+version: ${version}
+api-version: 1.13
+description: A lightweight, configurable MOTD plugin for Bukkit/Spigot/Paper.
+author: jpenilla

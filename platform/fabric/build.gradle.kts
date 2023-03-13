@@ -22,7 +22,7 @@ dependencies {
   include(libs.adventurePlatformFabric)
 }
 
-miniMOTDPlatform {
+bpmPlatform {
   jarTask.set(tasks.remapJar)
 }
 
