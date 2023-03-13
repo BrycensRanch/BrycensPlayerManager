@@ -1,0 +1,31 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    ":semanticCommitTypeAll(chore)"
+  ],
+  "prCreation": "not-pending",
+  "semanticCommits": "enabled",
+  "automerge": true,
+  "gradle": {
+    "enabled": true
+  },
+  "labels": [
+    "dependencies"
+  ],
+  "automergeSchedule": [
+    "after 10pm every weekday",
+    "before 5am every weekday",
+    "every weekend"
+  ],
+  "prConcurrentLimit": 0,
+  "prHourlyLimit": 0,
+  "branchConcurrentLimit": 20,
+  "baseBranches": ["alpha", "beta"],
+  "branchPrefix": "dep/",
+  "branchPrefixOld": "renovate/",
+  "timezone": "America/New_York"
+
+
+
+}

@@ -1,0 +1,76 @@
+apply plugin: 'maven-publish'
+java {
+    shadowJar
+    withJavadocJar()
+    withSourcesJar()
+}
+
+// Commented out because it requires a GPG key
+// and JitPack doesn't support it
+
+signing {
+    if (System.getenv("signingKeyId") != null && !System.getenv("signingKeyId").isBlank()) {
+        def signingKeyId = System.getenv("signingKeyId")
+        def signingKey = System.getenv("signingKey")
+        def signingPassword = System.getenv("signingPassword")
+        useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+        useGpgCmd()
+        sign publishing.publications
+    }
+}
+
+jar {
+    manifest {
+        attributes (
+                'Build-Jdk': "${System.properties['java.vendor']} ${System.properties['java.vm.version']}",
+                'Built-By':System.properties['user.name'],
+                'Built-On':"${System.properties['os.arch']} ${System.properties['os.name']} ${System.properties['os.version']}",
+                'Build-Date': new Date().getTime(),
+                'Created-By': "Gradle ${gradle.gradleVersion}",
+                'GHA-JOB': "${System.getenv('GITHUB_JOB')}",
+                'GHA-RUNNER': "${System.getenv('RUNNER_NAME')}",
+                'GHA-RUN': "${System.getenv('GITHUB_RUN_NUMBER')}",
+                'GHA-WORKFLOW': "${System.getenv('GITHUB_WORKFLOW')}",
+                'GHA-ACTOR': "${System.getenv('GITHUB_ACTOR')}",
+                'GHA-REPOSITORY': "${System.getenv('GITHUB_REPOSITORY')}",
+                'GHA-EVENT': "${System.getenv('GITHUB_EVENT_NAME')}",
+                'GHA-EVENT-PATH': "${System.getenv('GITHUB_EVENT_PATH')}",
+                'GHA-WORKSPACE': "${System.getenv('GITHUB_WORKSPACE')}",
+                'GHA-RUN-ID': "${System.getenv('GITHUB_RUN_ID')}",
+                'GHA-REF': "${System.getenv('GITHUB_REF')}",
+                'GHA-SHA': "${System.getenv('GITHUB_SHA')}",
+                'GHA-HEAD_REF': "${System.getenv('GITHUB_HEAD_REF')}",
+                'GHA-BASE_REF': "${System.getenv('GITHUB_BASE_REF')}",
+                'GHA-ACTION': "${System.getenv('GITHUB_ACTION')}",
+                'CODESPACES': "${System.getenv('CODESPACES')}",
+                'CODESPACES-NAME': "${System.getenv('CODESPACE_NAME	')}",
+                'GITPOD':"${System.getenv('GITPOD_WORKSPACE_URL')}",
+        )
+    }
+}
+
+publishing {
+    publications {
+        shadow(MavenPublication) { publication ->
+            artifactId = project.getName().toLowerCase()
+            groupId = ((String)project.getGroup()).toLowerCase()
+        }
+    }
+//    repositories {
+//        maven {
+//            name = "GitHubPackages"
+//            url = uri("https://maven.pkg.github.com/${project.findProperty("GITHUB_REPOSITORY")?: System.getenv("GITHUB_REPOSITORY")}")
+//            credentials {
+//                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+//                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+//            }
+//        }
+//    }
+}
+
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+}

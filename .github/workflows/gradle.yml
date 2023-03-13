@@ -1,0 +1,302 @@
+name: Build
+on: [ push ]
+jobs:
+  # JOB to run change detection
+  changes:
+    runs-on: ubuntu-latest
+    # Required permissions
+    permissions:
+      pull-requests: read
+    # Set job outputs to values from filter step
+    outputs:
+      ci: ${{ steps.filter.outputs.ci }}
+      src: ${{ steps.filter.outputs.src }}
+      gradle: ${{ steps.filter.outputs.gradle }}
+    steps:
+      - name: Check out current repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            ci:
+              - '.github/**'
+            src:
+              - '/**'
+              - '!.github/**'
+            gradle:
+              - '*gradle*'
+  build:
+    needs: changes
+    runs-on: ubuntu-latest
+    # We want to run on external PRs, but not on our own internal PRs as they'll be run
+    # by the push to the branch.
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+
+
+    steps:
+      - name: Check out current repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: 17
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Gradle Wrapper Validation
+        if: ${{ needs.changes.outputs.gradle == 'true' }}
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Grant execute permission to gradlew
+        run: chmod +x gradlew
+
+      - name: SpotBugs 👀
+        continue-on-error: true
+        run: ./gradlew spotBugsMain
+
+      - uses: jwgmeligmeyling/spotbugs-github-action@master
+        continue-on-error: true
+        with:
+          path: 'build/reports/spotbugs/main.xml'
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkstyle 🧑‍🏫
+        run: ./gradlew checkstyleMain
+        continue-on-error: true
+
+      - uses: jwgmeligmeyling/checkstyle-github-action@master
+        continue-on-error: true
+        with:
+          path: 'build/reports/checkstyle/main.xml'
+
+
+      - name: Build
+        run: ./gradlew build -x test -x checkLicenseMain
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: "**/build/libs"
+
+  test:
+
+    runs-on: ubuntu-latest
+    needs: build
+    defaults:
+      run:
+        working-directory: e2e
+    steps:
+      - name: Check out current repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: 17
+          
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Grant execute permission to gradlew
+        run: chmod +x ../gradlew
+
+      - name: 📥 Monorepo install all deps & pnpm
+        uses: ./.github/actions/pnpm-install
+
+      - name: Build
+        run: ./gradlew build -x test -x checkLicenseMain -x spotbugsMain -x spotlessCheck -x checkstyleMain -x checkstyleTest
+        working-directory: ${{ github.workspace }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Test
+        run: pnpm e2e
+
+        # I honestly detest Minecraft plugin unit testing and I don't think it's worth the time to write tests for a project like this. 
+        # I'm not going to write tests for this project, but I will leave the code here in case you want to write tests for your own project.
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          DISCORDSRV_TOKEN: ${{ secrets.DISCORDSRV_TOKEN }}
+
+#      - name: Create Coverage
+#        run: ./gradlew jacocoTestReport
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+#
+#      - name: Upload CodeCov Report
+#        uses: codecov/codecov-action@v3
+#        continue-on-error: true
+#        with:
+#          file: "**/build/reports/jacoco/**/*.xml"
+
+#       - name: Publish Unit Test Results
+#         uses: EnricoMi/publish-unit-test-result-action@v1.40
+#         continue-on-error: true
+#         with:
+#           files: "**/build/test-results/**/*.xml"
+
+  release:
+    if: contains('
+      refs/heads/master
+      refs/heads/alpha
+      refs/heads/beta
+      ', github.ref)
+    needs: [build, test]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out current repository
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v3
+        ## I'm definitely too far gone at this point
+        with:
+          name: build-artifacts
+      - name: Display structure of downloaded files
+        run: ls -R
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Gradle Wrapper Validation
+        if: needs.changes.outputs.gradle == 'true'
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Grant execute permission for update-versions.sh
+        run: chmod +x update-versions.sh
+
+      - name: Import GPG key
+        id: import_gpg
+        uses: crazy-max/ghaction-import-gpg@v5
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_tag_gpgsign: false
+          # No, GitHub does not currently support GPG signed pushes, only signed commits.
+          git_push_gpgsign: false
+      - name: Update license headers if necessary
+        run: ./gradlew licenseFormat
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GIT_AUTHOR_NAME: ${{ steps.import_gpg.outputs.name }}
+          GIT_AUTHOR_EMAIL: ${{ steps.import_gpg.outputs.email }}
+          GIT_COMMITTER_NAME: ${{ steps.import_gpg.outputs.name }}
+          GIT_COMMITTER_EMAIL: ${{ steps.import_gpg.outputs.email }}
+          signingKeyId: ${{ steps.import_gpg.outputs.keyid }}
+          signingKey: ${{ secrets.GPG_PRIVATE_KEY }}
+          signingPassword: ${{ secrets.PASSPHRASE }}
+          GH_URL: "https://api.github.com/"
+        run: npx --legacy-peer-deps -p @semantic-release/changelog -p @semantic-release/git -p @semantic-release/exec -p @romvnly/gradle-semantic-release-plugin -p @semantic-release/release-notes-generator -p conventional-changelog-conventionalcommits -p semantic-release semantic-release
+
+      - name: Run snapshot action
+        uses: mikepenz/gradle-dependency-submission@v0.8.4
+
+      - name: Parse Changelog
+        id: changelog
+        uses: ocavue/changelog-parser-action@v1
+        with:
+          removeMarkdown: false
+
+      - name: Publish to Modrinth
+        uses: BrycensRanch/plugin-publish@e05c1775fc218fe4d24eb51543cd305f84b3342e
+        with: 
+          modrinth-id: jVlopSkZ
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          changelog: ${{ steps.changelog.outputs.latestBody }}
+          loaders: |
+            bukkit
+            spigot
+            paper
+            purpur
+          game-versions: |
+            1.18.2
+            1.19
+          java: 17
+          version-type: ${{ github.head_ref || github.ref_name }}
+      - name: Publish to CurseForge (Bukkit)
+        uses: BrycensRanch/plugin-publish@e05c1775fc218fe4d24eb51543cd305f84b3342e
+        with:
+          curseforge-id: 832361
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          changelog: ${{ steps.changelog.outputs.latestBody }}
+          dependencies: |
+            Towny | depends | *
+          loaders: |
+            bukkit
+            spigot
+            paper
+            purpur
+          game-versions: |
+            1.17
+            1.18
+            1.19
+          java: 17
+          version-resolver: latest
+          version-type: ${{ github.head_ref || github.ref_name }}
+          fail-mode: warn
+      - name: Publish to Polymart
+        uses: BrycensRanch/plugin-publish@e05c1775fc218fe4d24eb51543cd305f84b3342e
+        with: 
+          polymart-id: 2057
+          polymart-token: ${{ secrets.POLYMART_TOKEN }}
+          changelog: ${{ steps.changelog.outputs.latestBody }}
+          java: 17
+          version-type: ${{ github.head_ref || github.ref_name }}
+          fail-mode: warn
+      - name: 🔃 Merge master back into alpha
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: peter-evans/rebase@v2
+        with:
+          base: master
+#      - name: 🔃 Merge master back into alpha
+#        if: ${{ github.ref == 'refs/heads/master' }}
+#        uses: everlytic/branch-merge@1.1.5
+#        with:
+#          github_token: ${{ secrets.GH_TOKEN }}
+#          source_ref: 'master'
+#          target_branch: 'alpha'
+#          commit_message_template: 'Merge branch {source_ref} into {target_branch} [skip ci]'
+#      - name: Publish to GitHub Package Registry
+#        if: ${{ github.ref == 'refs/heads/master' }}
+#        run: ./gradlew publish -x test
+#        env:
+#           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+#           signingKey: ${{ steps.import_gpg.outputs.keyid }}
+#           signingPassword: ${{ secrets.PASSPHRASE }}
+      - name: Upload release artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-artifacts
+          path: build/libs

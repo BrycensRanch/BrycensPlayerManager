@@ -1,0 +1,161 @@
+//file:noinspection SpellCheckingInspection
+//file:noinspection GroovyAssignabilityCheck
+import com.github.spotbugs.snom.SpotBugsTask
+import java.text.SimpleDateFormat
+import org.gradle.crypto.checksum.Checksum
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+// Thanks BanManager, but your log message is now my property
+logger.lifecycle("""
+*******************************************
+ You are building BedrockPlayerManager!
+ If you encounter trouble:
+ 1) Try running "build" in a separate Gradle run
+ 2) Use gradlew and not gradle
+ 3) If you still need help, ask on Discord #tickets! https://2v1.me/discord
+ Output files will be in [subproject]/build/libs
+*******************************************
+""")
+
+apply from: "$rootDir/gradle/jacoco.gradle"
+apply from: "$rootDir/gradle/publish.gradle"
+
+if (project.hasProperty("local_script")) {
+    apply from: file(local_script + "/build.local.gradle")
+}
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+
+group project.property("group")
+spotbugs {
+    ignoreFailures = true
+    showStackTraces = true
+    showProgress = true
+    effort = "default"
+    reportLevel = "default"
+}
+
+
+// CI channels will clash if you change the version within build.gradle.kts, this is only for local builds
+gitProperties {
+    failOnNoGitDirectory = false
+    customProperty "git.build.time", { new Date().getTime() }
+    extProperty = "gitProps" // git properties will be put in a map at project.ext.gitProps
+}
+generateGitProperties.outputs.upToDateWhen { false } // make sure the generateGitProperties task always executes (even when git.properties is not changed)
+
+
+ext {
+    mcVersion = project.property("mcVersion")
+}
+
+// Automatically apply Java versioning conventions and have it comply with Semantic Versioning
+// Our versioning scheme is: MAJOR.MINOR.PATCH-QUALIFIER
+// MAJOR: Major changes to the plugin, such as a complete rewrite
+// MINOR: Minor changes to the plugin, such as new features
+// PATCH: Bug fixes
+// QUALIFIER: A qualifier to the version, such as alpha, beta, or release candidate
+// The version is governed from our CI server, and is automatically incremented.
+// The CI should never run this.
+if (System.getenv("CI") == null && project.property("DO_NOT_CHANGE_VERSION") != "true") {
+    if (version == null || version == "") {
+        version = "SNAPSHOT"
+    } else if (gitBranchName.contains("alpha") || gitBranchName.contains("beta") || gitBranchName.contains("rc")) {
+        version = version + "-SNAPSHOT"
+    } else {
+        version = version
+    }
+}
+println("Version: " + version)
+// The current version based on the most recent tag on the current git branch.
+// Doesn"t mean anything, just a nice to have.
+println("Git Version: " + gitVersion)
+println("Branch: " + gitBranchName)
+println("Is CI detected? " + System.getenv("CI") != null)
+
+task generateFiles {
+    // Generates some files.
+}
+
+task createChecksums(type: Checksum, dependsOn: "build") {
+    inputFiles.setFrom(build)
+    checksumAlgorithm.set(Checksum.Algorithm.SHA512)
+    appendFileNameToChecksum.set(true)
+}
+
+checkstyle {
+    // toolVersion "10.6.0"
+    // maxWarnings = 0
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
+tasks.withType(SpotBugsTask) {
+    reports {
+        xml {
+            required.set(true)
+        }
+        html {
+            required.set(true)
+        }
+    }
+}
+
+def gitHubRepo = "https://github.com/BrycensRanch/TownyPlus"
+
+compileJava {
+    options.fork = true
+}
+publish {
+    dependsOn "clean"
+    dependsOn "build"
+    tasks.findByName("build").mustRunAfter "clean"
+
+}
+assemble {
+    dependsOn(shadowJar)
+}
+archivesBaseName = project.property("pluginName")
+allprojects {
+    shadowJar {
+        archiveClassifier.set("")
+//        archiveFileName.set(rootProject.name.capitalize() + project.version + ".jar")
+        // Exclude signatures, maven/ and proguard/ from META-INF
+        exclude("META-INF/*.SF")
+        exclude("META-INF/*.DSA")
+        exclude("META-INF/*.RSA")
+        exclude("META-INF/maven/**")
+        exclude("META-INF/proguard/**")
+    }
+    sourcesJar.enabled = true
+    processResources {
+        project.properties.put("version", version)
+        expand project.properties
+    }
+
+    defaultTasks "build"
+
+}
+
+license {
+    include "**/*.java"
+
+    matching("**/*.java") {
+        header = file("HEADER.txt")
+    }
+}
+
+
+tasks.build.dependsOn(shadowJar)
+// tasks.test.dependsOn(shadowJar)
