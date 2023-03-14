@@ -48,7 +48,7 @@ plugins {
     id("quiet-fabric-loom") version "1.1.181"
 }
 
-rootProject.name = "BedrockPlayerManager"
+rootProject.name = "BrycensPlayerManager"
 
 
 sequenceOf(

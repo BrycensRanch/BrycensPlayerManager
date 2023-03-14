@@ -5,8 +5,8 @@ plugins {
   id("net.kyori.indra")
   id("net.kyori.indra.git")
   id("net.kyori.indra.checkstyle")
-  id("net.kyori.indra.license-header")
   id("com.adarshr.test-logger")
+  id("org.cadixdev.licenser")
 }
 
 version = (version as String)
@@ -15,10 +15,9 @@ version = (version as String)
 indra {
   javaVersions {
     minimumToolchain(17)
-    target(17)
+    target(8)
   }
   github(Constants.GITHUB_USER, Constants.GITHUB_REPO)
-  mitLicense()
 }
 
 testlogger {
@@ -35,11 +34,19 @@ tasks {
     withType<JavaCompile> {
       options.compilerArgs.add("-Xlint:-processing")
     }
+
     sequenceOf(javadocJar, javadoc).forEach {
       it.configure {
         onlyIf { false }
       }
     }
+    license {
+      include '**/*.java'
+  
+      matching('**/*.java') {
+          header = file('HEADER.txt')
+      }
+  }
   }
 }
 // Automatically apply Java versioning conventions and have it comply with Semantic Versioning

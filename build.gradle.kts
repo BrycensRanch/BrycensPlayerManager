@@ -5,7 +5,7 @@ plugins {
 // Thanks BanManager, but your log message is now my property
 logger.lifecycle("""
 *******************************************
- You are building BedrockPlayerManager!
+ You are building ${rootProject.name}!
  If you encounter trouble:
  1) Try running "build" in a separate Gradle run
  2) Use gradlew and not gradle

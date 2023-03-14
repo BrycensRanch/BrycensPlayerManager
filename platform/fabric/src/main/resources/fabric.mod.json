@@ -16,7 +16,7 @@
   "environment": "server",
   "entrypoints": {
     "main": [
-      "xyz.jpenilla.minimotd.fabric.MiniMOTDFabric"
+      "xyz.jpenilla.minimotd.fabric.BrycensPlayerManagerFabric"
     ]
   },
   "mixins": [

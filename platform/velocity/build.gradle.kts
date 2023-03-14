@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-  implementation(projects.bedrockPlayerManagerCommon)
+  implementation(projects.brycensPlayerManagerCommon)
   implementation(libs.bstatsVelocity)
   compileOnly(libs.velocityApi)
   annotationProcessor(libs.velocityApi)
@@ -20,7 +20,7 @@ tasks {
 }
 
 blossom {
-  val file = "src/main/java/xyz/jpenilla/minimotd/velocity/MiniMOTDPlugin.java"
+  val file = "src/main/java/xyz/jpenilla/minimotd/velocity/BrycensPlayerManagerPlugin.java"
   mapOf(
     "project.name" to project.name,
     "description" to description as String,

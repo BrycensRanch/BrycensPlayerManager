@@ -1,21 +1,23 @@
 # Contributing Guidelines
 
-First off, thank you for considering contributing to this project. It's people like you that make this such a great
-plugin.
+First off, thank you for considering contributing to this project. It's people like you that make this such a great plugin.
 
-Following these guidelines helps to communicate that you respect the time of the developers managing and developing this
-open source project. In return, they should reciprocate that respect in addressing your issue, assessing changes, and
+Following these guidelines helps to communicate that you respect the time of the developers managing and developing this open source project. 
+In return, they should reciprocate that respect in addressing your issue, assessing changes, and
 helping you finalize your pull requests.
 
 This is an open source project, and we love to receive contributions from our community — you! There are many ways to
 contribute, from writing tutorials or blog posts, improving the documentation, submitting bug reports and feature
 requests or writing code which can be incorporated into the plugin itself.
 
-Please don't use issue tracker for support or requesting new plugins from me. 
+Please don't use issue tracker for support or requesting new plugins.
 I accept requests on my [GitHub Profile's repo](https://github.com/BrycensRanch/BrycensRanch). 
 I will not accept any requests on this repo.
 
-# Ground Rules
+For support, you should seek assistance in our Discord Server. Whether this be assistance in implementing a feature or just a general question on the project's goals and what may be considered
+"out of scope" for this project.
+
+## Ground Rules
 
 By contributing to this project you submit to following our [Code of Conduct](.github/CODE_OF_CONDUCT.md). Please read
 this next section carefully and check if your contribution meets all requirements in this checklist. This will save you
@@ -27,13 +29,13 @@ Please make sure you checked all the following before submitting a new issue.
 
 * Before submitting a new issue, search the existing (including closed) issues for any duplicates.
 * If you found an existing issue - use the react feature to show you have the same problem or need the same feature.
-  Don't post comments like +1.
+* Don't post comments like +1.
 * Use the Bug & Feature Issue templates and provide all the required information.
 * Be as detailed as possible and include screenshots wherever possible. This will help reproducing your bug or
   understanding your feature request.
 * Use the  `/bpm dump` command to provide detailed debug information and post the dump link in the
-  issue. 
-* However, keep in mind that this command may include your server's IP address and other potentially sensitive information such as your server's plugins, configuration, names of your players, the latest server log, etc... You can see an example [here](https://dump.geysermc.org/RIGcqNRwapkEJXSLT6EUsCJTVU9GzLGZ).
+  issue.
+* However, keep in mind that this command may include your server's IP address and other potentially sensitive information such as your server's plugins, configuration, names of your players, the latest server log, etc... You can see an example [here](https://sourceb.in/TyMKM5Rje3).
 
 ## Contributing Code
 
@@ -46,7 +48,7 @@ use [GitHub Flow](https://docs.github.com/en/get-started/quickstart/github-flow)
 * Keep feature versions as small as possible, preferably one new feature per version.
 * Be welcoming to newcomers and encourage diverse new contributors from all backgrounds.
 
-# Your First Contribution
+## Your First Contribution
 
 Unsure where to begin contributing to this project? You can start by looking through these beginner and help-wanted
 issues:
@@ -103,7 +105,7 @@ a **type**, a **scope** and a **subject**:
 > Any line of the commit message cannot be longer 100 characters!<br/>
 This allows the message to be easier to read on GitHub as well as in various Git tools.
 
-##### Type
+#### Type
 
 Must be one of the following:
 
@@ -147,7 +149,7 @@ that this commit **Closes**, **Fixes**, or **Relates to**.
 
 > Breaking Changes are intended to be highlighted in the ChangeLog as changes that will require community users to modify their code after updating to a version that contains this commit.
 
-##### Sample Commit messages:
+##### Sample Commit messages
 
 ```text
 fix(command): allow execution of /help X from the console

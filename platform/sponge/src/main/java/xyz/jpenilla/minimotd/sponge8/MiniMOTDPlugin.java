@@ -1,26 +1,4 @@
-/*
- * This file is part of MiniMOTD, licensed under the MIT License.
- *
- * Copyright (c) 2020-2022 Jason Penilla
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+
 package xyz.jpenilla.minimotd.sponge8;
 
 import com.google.inject.AbstractModule;
@@ -51,21 +29,21 @@ import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
 import org.spongepowered.plugin.metadata.PluginMetadata;
 import xyz.jpenilla.minimotd.common.CommandHandler;
-import xyz.jpenilla.minimotd.common.MiniMOTD;
-import xyz.jpenilla.minimotd.common.MiniMOTDPlatform;
+import xyz.jpenilla.minimotd.common.BrycensPlayerManager;
+import xyz.jpenilla.minimotd.common.BPMPlatform;
 import xyz.jpenilla.minimotd.common.util.UpdateChecker;
 
 @Plugin("minimotd-sponge8")
-public final class MiniMOTDPlugin implements MiniMOTDPlatform<Favicon> {
+public final class BrycensPlayerManagerPlugin implements BPMPlatform<Favicon> {
   private final Path dataDirectory;
   private final PluginMetadata pluginMetadata;
   private final Logger logger;
   private final PluginContainer pluginContainer;
-  private final MiniMOTD<Favicon> miniMOTD;
+  private final BrycensPlayerManager<Favicon> brycensPlayerManager;
   private final Injector injector;
 
   @Inject
-  public MiniMOTDPlugin(
+  public BrycensPlayerManagerPlugin(
     @ConfigDir(sharedRoot = false) final @NonNull Path dataDirectory,
     final @NonNull PluginContainer pluginContainer,
     final @NonNull Injector injector
@@ -74,12 +52,12 @@ public final class MiniMOTDPlugin implements MiniMOTDPlatform<Favicon> {
     this.pluginContainer = pluginContainer;
     this.pluginMetadata = pluginContainer.metadata();
     this.logger = LoggerFactory.getLogger(this.pluginMetadata.id());
-    this.miniMOTD = new MiniMOTD<>(this);
+    this.brycensPlayerManager = new BrycensPlayerManager<>(this);
     this.injector = injector.createChildInjector(new AbstractModule() {
       @Override
       protected void configure() {
-        this.bind(new TypeLiteral<MiniMOTD<Favicon>>() {
-        }).toInstance(MiniMOTDPlugin.this.miniMOTD);
+        this.bind(new TypeLiteral<BrycensPlayerManager<Favicon>>() {
+        }).toInstance(BrycensPlayerManagerPlugin.this.brycensPlayerManager);
       }
     });
     Sponge.eventManager().registerListener(
@@ -93,7 +71,7 @@ public final class MiniMOTDPlugin implements MiniMOTDPlatform<Favicon> {
 
   @Listener
   public void onGameLoaded(final @NonNull LoadedGameEvent event) {
-    if (this.miniMOTD.configManager().pluginSettings().updateChecker()) {
+    if (this.brycensPlayerManager.configManager().pluginSettings().updateChecker()) {
       Sponge.asyncScheduler().submit(Task.builder()
         .plugin(this.pluginContainer)
         .execute(() -> new UpdateChecker().checkVersion().forEach(this.logger::info))
@@ -117,7 +95,7 @@ public final class MiniMOTDPlugin implements MiniMOTDPlatform<Favicon> {
       }
     }
 
-    final CommandHandler handler = new CommandHandler(this.miniMOTD);
+    final CommandHandler handler = new CommandHandler(this.brycensPlayerManager);
     final Command.Parameterized about = Command.builder()
       .executor(new WrappingExecutor(handler::about))
       .build();
@@ -142,9 +120,9 @@ public final class MiniMOTDPlugin implements MiniMOTDPlatform<Favicon> {
   @Listener
   public void onRefresh(final @NonNull RefreshGameEvent event) {
     try {
-      this.miniMOTD.reload();
+      this.brycensPlayerManager.reload();
     } catch (final Exception ex) {
-      this.miniMOTD.logger().warn("Failed to reload MiniMOTD.", ex);
+      this.brycensPlayerManager.logger().warn("Failed to reload BrycensPlayerManager.", ex);
     }
   }
 

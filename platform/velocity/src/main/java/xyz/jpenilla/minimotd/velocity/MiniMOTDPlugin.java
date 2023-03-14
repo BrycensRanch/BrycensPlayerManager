@@ -1,26 +1,4 @@
-/*
- * This file is part of MiniMOTD, licensed under the MIT License.
- *
- * Copyright (c) 2020-2022 Jason Penilla
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+
 package xyz.jpenilla.minimotd.velocity;
 
 import com.google.common.collect.ImmutableSet;
@@ -48,8 +26,8 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.slf4j.Logger;
 import xyz.jpenilla.minimotd.common.CommandHandler;
 import xyz.jpenilla.minimotd.common.Constants;
-import xyz.jpenilla.minimotd.common.MiniMOTD;
-import xyz.jpenilla.minimotd.common.MiniMOTDPlatform;
+import xyz.jpenilla.minimotd.common.BrycensPlayerManager;
+import xyz.jpenilla.minimotd.common.BPMPlatform;
 import xyz.jpenilla.minimotd.common.util.UpdateChecker;
 
 @Plugin(
@@ -60,12 +38,12 @@ import xyz.jpenilla.minimotd.common.util.UpdateChecker;
   url = "${url}",
   authors = {"jmp"}
 )
-public final class MiniMOTDPlugin implements MiniMOTDPlatform<Favicon> {
+public final class BrycensPlayerManagerPlugin implements BPMPlatform<Favicon> {
   private static final Set<Class<?>> LISTENER_CLASSES = ImmutableSet.of(
     PingListener.class
   );
 
-  private final MiniMOTD<Favicon> miniMOTD;
+  private final BrycensPlayerManager<Favicon> brycensPlayerManager;
   private final ProxyServer server;
   private final Logger logger;
   private final CommandManager commandManager;
@@ -74,7 +52,7 @@ public final class MiniMOTDPlugin implements MiniMOTDPlatform<Favicon> {
   private final Injector injector;
 
   @Inject
-  public MiniMOTDPlugin(
+  public BrycensPlayerManagerPlugin(
     final @NonNull ProxyServer server,
     final @NonNull Logger logger,
     final @NonNull CommandManager commandManager,
@@ -87,13 +65,13 @@ public final class MiniMOTDPlugin implements MiniMOTDPlatform<Favicon> {
     this.commandManager = commandManager;
     this.dataDirectory = dataDirectory;
     this.metricsFactory = metricsFactory;
-    this.miniMOTD = new MiniMOTD<>(this);
-    this.miniMOTD.configManager().loadExtraConfigs();
+    this.brycensPlayerManager = new BrycensPlayerManager<>(this);
+    this.brycensPlayerManager.configManager().loadExtraConfigs();
     this.injector = injector.createChildInjector(new AbstractModule() {
       @Override
       protected void configure() {
-        this.bind(new TypeLiteral<MiniMOTD<Favicon>>() {
-        }).toInstance(MiniMOTDPlugin.this.miniMOTD);
+        this.bind(new TypeLiteral<BrycensPlayerManager<Favicon>>() {
+        }).toInstance(BrycensPlayerManagerPlugin.this.brycensPlayerManager);
       }
     });
   }
@@ -105,7 +83,7 @@ public final class MiniMOTDPlugin implements MiniMOTDPlatform<Favicon> {
     }
     this.registerCommand();
     this.metricsFactory.make(this, 10257);
-    if (this.miniMOTD.configManager().pluginSettings().updateChecker()) {
+    if (this.brycensPlayerManager.configManager().pluginSettings().updateChecker()) {
       this.server.getScheduler().buildTask(
         this,
         () -> new UpdateChecker().checkVersion().forEach(this.logger::info)
@@ -128,7 +106,7 @@ public final class MiniMOTDPlugin implements MiniMOTDPlatform<Favicon> {
       }
     }
 
-    final CommandHandler handler = new CommandHandler(this.miniMOTD);
+    final CommandHandler handler = new CommandHandler(this.brycensPlayerManager);
     this.commandManager.register(this.commandManager.metaBuilder("minimotd").build(), new BrigadierCommand(
       LiteralArgumentBuilder.<CommandSource>literal("minimotd")
         .requires(source -> source.hasPermission("minimotd.admin"))
@@ -155,6 +133,6 @@ public final class MiniMOTDPlugin implements MiniMOTDPlatform<Favicon> {
 
   @Override
   public void onReload() {
-    this.miniMOTD.configManager().loadExtraConfigs();
+    this.brycensPlayerManager.configManager().loadExtraConfigs();
   }
 }

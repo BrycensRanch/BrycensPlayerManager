@@ -21,7 +21,7 @@ sponge {
     }
     license("MIT")
     displayName(rootProject.name)
-    entrypoint("xyz.jpenilla.minimotd.sponge8.MiniMOTDPlugin")
+    entrypoint("xyz.jpenilla.minimotd.sponge8.BrycensPlayerManagerPlugin")
     description(project.description)
     links {
       homepage(Constants.GITHUB_URL)

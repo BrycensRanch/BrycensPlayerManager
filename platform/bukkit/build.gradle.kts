@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-  implementation(projects.bedrockPlayerManagerCommon)
+  implementation(projects.brycensPlayerManagerCommon)
   implementation(libs.slf4jJdk14)
   implementation(libs.adventurePlatformBukkit)
   implementation(libs.bstatsBukkit)
@@ -40,14 +40,14 @@ tasks {
 }
 //bukkit {
 //  name = rootProject.name
-//  main = "xyz.jpenilla.minimotd.bukkit.MiniMOTDPlugin"
+//  main = "xyz.jpenilla.minimotd.bukkit.BrycensPlayerManagerPlugin"
 //  apiVersion = "1.13"
 //  website = Constants.GITHUB_URL
 //  author = "jmp"
 //  softDepend = listOf("ViaVersion")
 //  commands {
 //    register("minimotd") {
-//      description = "MiniMOTD Command"
+//      description = "BrycensPlayerManager Command"
 //      usage = "/minimotd help"
 //      permission = "minimotd.admin"
 //    }

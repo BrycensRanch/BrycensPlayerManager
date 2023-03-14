@@ -5,6 +5,7 @@ on:
       - "master"
       - "alpha"
       - "beta"
+      - "rc"
       
 jobs:
     build:

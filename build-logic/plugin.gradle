@@ -76,8 +76,6 @@ task generateFiles {
 //    }
 //}
 
-def gitHubRepo = "https://github.com/BrycensRanch/TownyPlus"
-
 compileJava {
     options.fork = true
 }
@@ -111,14 +109,6 @@ allprojects {
     defaultTasks "build"
 
 }
-
-//license {
-//    include "**/*.java"
-//
-//    matching("**/*.java") {
-//        header = file("HEADER.txt")
-//    }
-//}
 
 
 tasks.build.dependsOn(shadowJar)

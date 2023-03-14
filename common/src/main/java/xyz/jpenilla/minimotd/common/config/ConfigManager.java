@@ -1,26 +1,4 @@
-/*
- * This file is part of MiniMOTD, licensed under the MIT License.
- *
- * Copyright (c) 2020-2022 Jason Penilla
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+
 package xyz.jpenilla.minimotd.common.config;
 
 import com.google.common.collect.ImmutableList;
@@ -36,34 +14,34 @@ import java.util.stream.Stream;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
-import xyz.jpenilla.minimotd.common.MiniMOTD;
+import xyz.jpenilla.minimotd.common.BrycensPlayerManager;
 import xyz.jpenilla.minimotd.common.util.Pair;
 
 import static xyz.jpenilla.minimotd.common.util.Pair.pair;
 
 public final class ConfigManager {
 
-  private final MiniMOTD<?> miniMOTD;
+  private final BrycensPlayerManager<?> brycensPlayerManager;
 
-  private final ConfigLoader<MiniMOTDConfig> mainConfigLoader;
-  private MiniMOTDConfig mainConfig;
+  private final ConfigLoader<BPMConfig> mainConfigLoader;
+  private BPMConfig mainConfig;
 
   private final ConfigLoader<PluginSettings> pluginSettingsLoader;
   private PluginSettings pluginSettings;
 
-  private final Map<String, MiniMOTDConfig> extraConfigs = new HashMap<>();
+  private final Map<String, BPMConfig> extraConfigs = new HashMap<>();
 
-  public ConfigManager(final @NonNull MiniMOTD<?> miniMOTD) {
-    this.miniMOTD = miniMOTD;
+  public ConfigManager(final @NonNull BrycensPlayerManager<?> brycensPlayerManager) {
+    this.brycensPlayerManager = brycensPlayerManager;
     this.mainConfigLoader = new ConfigLoader<>(
-      MiniMOTDConfig.class,
-      this.miniMOTD.dataDirectory().resolve("main.conf"),
-      options -> options.header("MiniMOTD Main Configuration")
+      BPMConfig.class,
+      this.brycensPlayerManager.dataDirectory().resolve("main.conf"),
+      options -> options.header("BrycensPlayerManager Main Configuration")
     );
     this.pluginSettingsLoader = new ConfigLoader<>(
       PluginSettings.class,
-      this.miniMOTD.dataDirectory().resolve("plugin_settings.conf"),
-      options -> options.header("MiniMOTD Plugin Configuration")
+      this.brycensPlayerManager.dataDirectory().resolve("plugin_settings.conf"),
+      options -> options.header("BrycensPlayerManager Plugin Configuration")
     );
   }
 
@@ -81,7 +59,7 @@ public final class ConfigManager {
 
   public void loadExtraConfigs() {
     this.extraConfigs.clear();
-    final Path extraConfigsDir = this.miniMOTD.dataDirectory().resolve("extra-configs");
+    final Path extraConfigsDir = this.brycensPlayerManager.dataDirectory().resolve("extra-configs");
     try {
       if (!Files.exists(extraConfigsDir)) {
         Files.createDirectories(extraConfigsDir);
@@ -93,12 +71,12 @@ public final class ConfigManager {
             continue;
           }
           final String name = path.getFileName().toString().replace(".conf", "");
-          final ConfigLoader<MiniMOTDConfig> loader = new ConfigLoader<>(
-            MiniMOTDConfig.class,
+          final ConfigLoader<BPMConfig> loader = new ConfigLoader<>(
+            BPMConfig.class,
             path,
-            options -> options.header(String.format("Extra MiniMOTD config '%s'", name))
+            options -> options.header(String.format("Extra BrycensPlayerManager config '%s'", name))
           );
-          final MiniMOTDConfig config = loader.load();
+          final BPMConfig config = loader.load();
           loader.save(config);
           this.extraConfigs.put(name, config);
         }
@@ -109,20 +87,20 @@ public final class ConfigManager {
   }
 
   private void createDefaultExtraConfigs(final @NonNull Path extraConfigsDir) throws ConfigurateException {
-    final List<Pair<Path, MiniMOTDConfig.MOTD>> defaults = ImmutableList.of(
-      pair(extraConfigsDir.resolve("skyblock.conf"), new MiniMOTDConfig.MOTD("<green><italic>Skyblock</green>", "<bold><rainbow>MiniMOTD Skyblock Server")),
-      pair(extraConfigsDir.resolve("survival.conf"), new MiniMOTDConfig.MOTD("<gradient:blue:red>Survival Mode Hardcore", "<green><bold>MiniMOTD Survival Server"))
+    final List<Pair<Path, BPMConfig.MOTD>> defaults = ImmutableList.of(
+      pair(extraConfigsDir.resolve("skyblock.conf"), new BPMConfig.MOTD("<green><italic>Skyblock</green>", "<bold><rainbow>BrycensPlayerManager Skyblock Server")),
+      pair(extraConfigsDir.resolve("survival.conf"), new BPMConfig.MOTD("<gradient:blue:red>Survival Mode Hardcore", "<green><bold>BrycensPlayerManager Survival Server"))
     );
-    for (final Pair<Path, MiniMOTDConfig.MOTD> pair : defaults) {
-      final ConfigLoader<MiniMOTDConfig> loader = new ConfigLoader<>(
-        MiniMOTDConfig.class,
+    for (final Pair<Path, BPMConfig.MOTD> pair : defaults) {
+      final ConfigLoader<BPMConfig> loader = new ConfigLoader<>(
+        BPMConfig.class,
         pair.left()
       );
-      loader.save(new MiniMOTDConfig(pair.right()));
+      loader.save(new BPMConfig(pair.right()));
     }
   }
 
-  public @NonNull MiniMOTDConfig mainConfig() {
+  public @NonNull BPMConfig mainConfig() {
     if (this.mainConfig == null) {
       throw new IllegalStateException("Config has not yet been loaded");
     }
@@ -136,7 +114,7 @@ public final class ConfigManager {
     return this.pluginSettings;
   }
 
-  public @NonNull MiniMOTDConfig resolveConfig(final @Nullable InetSocketAddress address) {
+  public @NonNull BPMConfig resolveConfig(final @Nullable InetSocketAddress address) {
     if (address == null) {
       return this.mainConfig();
     }
@@ -144,7 +122,7 @@ public final class ConfigManager {
     final String configString = this.pluginSettings().proxySettings().findConfigStringForHost(hostString);
 
     if (this.pluginSettings().proxySettings().virtualHostTestMode()) {
-      this.miniMOTD.platform().logger().info("[virtual-host-debug] Virtual Host: '{}', Selected Config: '{}'", hostString, configString == null ? "default" : configString);
+      this.brycensPlayerManager.platform().logger().info("[virtual-host-debug] Virtual Host: '{}', Selected Config: '{}'", hostString, configString == null ? "default" : configString);
     }
 
     if (configString == null) {
@@ -153,15 +131,15 @@ public final class ConfigManager {
     return this.resolveConfig(configString);
   }
 
-  public @NonNull MiniMOTDConfig resolveConfig(final @NonNull String name) {
+  public @NonNull BPMConfig resolveConfig(final @NonNull String name) {
     if ("default".equals(name)) {
       return this.mainConfig();
     }
-    final MiniMOTDConfig cfg = this.extraConfigs.get(name);
+    final BPMConfig cfg = this.extraConfigs.get(name);
     if (cfg != null) {
       return cfg;
     }
-    this.miniMOTD.logger().warn("Invalid extra-config name: '{}', falling back to main.conf", name);
+    this.brycensPlayerManager.logger().warn("Invalid extra-config name: '{}', falling back to main.conf", name);
     return this.mainConfig();
   }
 

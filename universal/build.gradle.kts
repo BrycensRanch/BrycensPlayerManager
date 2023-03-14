@@ -7,11 +7,11 @@ tasks.jar {
 }
 
 val platforms = setOf(
-    projects.bedrockPlayerManagerBukkit,
-//    projects.bedrockPlayerManagerBungee,
-//    projects.bedrockPlayerManagerVelocity,
-//    projects.bedrockPlayerManagerFabric,
-//    projects.bedrockPlayerManagerSponge
+    projects.brycensPlayerManagerBukkit,
+//    projects.brycensPlayerManagerBungee,
+//    projects.brycensPlayerManagerVelocity,
+//    projects.brycensPlayerManagerFabric,
+//    projects.brycensPlayerManagerSponge
 ).map { it.dependencyProject }
 
 val universal = tasks.register<Jar>("universal") {

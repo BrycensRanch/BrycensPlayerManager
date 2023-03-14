@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-  implementation(projects.bedrockPlayerManagerCommon)
+  implementation(projects.brycensPlayerManagerCommon)
   implementation(libs.adventurePlatformBungeecord)
   implementation(libs.bstatsBungeecord)
   compileOnly(libs.waterfallApi)
@@ -20,6 +20,6 @@ tasks {
 
 bungee {
   name = rootProject.name
-  main = "xyz.jpenilla.minimotd.bungee.MiniMOTDPlugin"
+  main = "xyz.jpenilla.minimotd.bungee.BrycensPlayerManagerPlugin"
   author = "jmp"
 }

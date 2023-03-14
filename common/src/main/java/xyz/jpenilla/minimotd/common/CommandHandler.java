@@ -1,26 +1,4 @@
-/*
- * This file is part of MiniMOTD, licensed under the MIT License.
- *
- * Copyright (c) 2020-2022 Jason Penilla
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+
 package xyz.jpenilla.minimotd.common;
 
 import java.util.stream.Stream;
@@ -45,10 +23,10 @@ import static net.kyori.adventure.text.format.TextDecoration.STRIKETHROUGH;
 
 @DefaultQualifier(NonNull.class)
 public final class CommandHandler {
-  private final MiniMOTD<?> miniMOTD;
+  private final BrycensPlayerManager<?> brycensPlayerManager;
 
-  public CommandHandler(final MiniMOTD<?> miniMOTD) {
-    this.miniMOTD = miniMOTD;
+  public CommandHandler(final BrycensPlayerManager<?> brycensPlayerManager) {
+    this.brycensPlayerManager = brycensPlayerManager;
   }
 
   public void about(final Audience audience) {
@@ -74,13 +52,13 @@ public final class CommandHandler {
 
   public void reload(final Audience audience) {
     try {
-      this.miniMOTD.reload();
+      this.brycensPlayerManager.reload();
     } catch (final Exception ex) {
-      this.miniMOTD.logger().warn("Failed to reload MiniMOTD. Ensure there are no errors in your config files.", ex);
+      this.brycensPlayerManager.logger().warn("Failed to reload BrycensPlayerManager. Ensure there are no errors in your config files.", ex);
       audience.sendMessage(Components.ofChildren(
         Constants.COMMAND_PREFIX,
         space(),
-        text("Failed to reload MiniMOTD. Ensure there are no errors in your config files. See console for more details.", RED)
+        text("Failed to reload BrycensPlayerManager. Ensure there are no errors in your config files. See console for more details.", RED)
       ));
       return;
     }
@@ -95,8 +73,8 @@ public final class CommandHandler {
   public void help(final Audience audience) {
     Stream.of(
       linear(Constants.COMMAND_PREFIX, space(), text(Constants.PluginMetadata.NAME + " command help", WHITE)),
-      commandInfo("minimotd about", "Show information about MiniMOTD"),
-      commandInfo("minimotd reload", "Reload MiniMOTD configuration files"),
+      commandInfo("minimotd about", "Show information about BrycensPlayerManager"),
+      commandInfo("minimotd reload", "Reload BrycensPlayerManager configuration files"),
       commandInfo("minimotd help", "Show this help menu")
     ).forEach(audience::sendMessage);
   }

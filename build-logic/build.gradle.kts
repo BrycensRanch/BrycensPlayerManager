@@ -1,6 +1,6 @@
 plugins {
   id("com.github.johnrengelman.shadow") version "8.1.0"
-//  id("org.cadixdev.licenser") version "0.6.1"
+ id("org.cadixdev.licenser") version "0.6.1"
 //    id "com.github.sherter.google-java-format" version "0.9"
 //    id "com.github.spotbugs" version "5.0.13"
   id("com.gorylenko.gradle-git-properties") version "2.4.1"
@@ -29,6 +29,7 @@ dependencies {
   implementation(libs.indraCommon)
   implementation(libs.shadow)
   implementation(libs.testLogger)
+  implementation(libs.licenser)
 
   // https://github.com/gradle/gradle/issues/15383#issuecomment-779893192
   implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))

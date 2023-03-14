@@ -1,26 +1,4 @@
-/*
- * This file is part of MiniMOTD, licensed under the MIT License.
- *
- * Copyright (c) 2020-2022 Jason Penilla
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+
 package xyz.jpenilla.minimotd.bungee;
 
 import com.google.gson.Gson;
@@ -37,31 +15,31 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.jpenilla.minimotd.common.MiniMOTD;
-import xyz.jpenilla.minimotd.common.MiniMOTDPlatform;
+import xyz.jpenilla.minimotd.common.BrycensPlayerManager;
+import xyz.jpenilla.minimotd.common.BPMPlatform;
 import xyz.jpenilla.minimotd.common.util.UpdateChecker;
 
-public final class MiniMOTDPlugin extends Plugin implements MiniMOTDPlatform<Favicon> {
+public final class BrycensPlayerManagerPlugin extends Plugin implements BPMPlatform<Favicon> {
   private Logger logger;
   private BungeeAudiences audiences;
-  private MiniMOTD<Favicon> miniMOTD;
+  private BrycensPlayerManager<Favicon> brycensPlayerManager;
 
-  public @NonNull MiniMOTD<Favicon> miniMOTD() {
-    return this.miniMOTD;
+  public @NonNull BrycensPlayerManager<Favicon> brycensPlayerManager() {
+    return this.brycensPlayerManager;
   }
 
   @Override
   public void onEnable() {
     this.logger = LoggerFactory.getLogger(this.getDescription().getName());
-    this.miniMOTD = new MiniMOTD<>(this);
-    this.miniMOTD.configManager().loadExtraConfigs();
+    this.brycensPlayerManager = new BrycensPlayerManager<>(this);
+    this.brycensPlayerManager.configManager().loadExtraConfigs();
     this.audiences = BungeeAudiences.create(this);
     this.injectTravertineGson();
-    this.getProxy().getPluginManager().registerListener(this, new PingListener(this.miniMOTD));
+    this.getProxy().getPluginManager().registerListener(this, new PingListener(this.brycensPlayerManager));
     this.getProxy().getPluginManager().registerCommand(this, new BungeeCommand(this));
     final Metrics metrics = new Metrics(this, 8137);
 
-    if (this.miniMOTD.configManager().pluginSettings().updateChecker()) {
+    if (this.brycensPlayerManager.configManager().pluginSettings().updateChecker()) {
       this.getProxy().getScheduler().runAsync(this, () ->
         new UpdateChecker().checkVersion().forEach(this.logger::info));
     }
@@ -88,7 +66,7 @@ public final class MiniMOTDPlugin extends Plugin implements MiniMOTDPlatform<Fav
 
   @Override
   public void onReload() {
-    this.miniMOTD.configManager().loadExtraConfigs();
+    this.brycensPlayerManager.configManager().loadExtraConfigs();
   }
 
   private void injectTravertineGson() {
@@ -97,7 +75,7 @@ public final class MiniMOTDPlugin extends Plugin implements MiniMOTDPlatform<Fav
       try {
         BungeeComponentSerializer.inject((Gson) gsonLegacyField.get(ProxyServer.getInstance()));
       } catch (final IllegalAccessException ex) {
-        this.miniMOTD.logger().warn("Failed to inject into Travertine's gsonLegacy gson instance. There will likely be issues with 1.7.x clients.", ex);
+        this.brycensPlayerManager.logger().warn("Failed to inject into Travertine's gsonLegacy gson instance. There will likely be issues with 1.7.x clients.", ex);
       }
     }
   }

@@ -1,4 +1,5 @@
 # jmp this is your fault
+# renovate cant even auto update this 
 
 metadata:
   format: { version: 1.0 }
@@ -11,6 +12,7 @@ plugins:
   net.minecrell.plugin-yml.bungee: &plugin-yml 0.5.2
   net.minecrell.plugin-yml.bukkit: *plugin-yml
   xyz.jpenilla.run-paper: 1.0.6
+  org.cadixdev.licenser: 0.6.1
 
 versions:
   indra: 2.1.1
@@ -33,6 +35,7 @@ versions:
   fabricMinecraft: 1.19.2
   spongeApi7: 7.2.0
   velocityApi: 3.1.2-SNAPSHOT
+  licenser: 0.6.1
   jupiterEngine: 5.8.2
 
 dependencies:
@@ -165,6 +168,10 @@ dependencies:
     group: gradle.plugin.com.github.johnrengelman
     name: shadow
     version: { ref: shadow }
+  licenser:
+     group: org.cadixdev.licenser
+     name: licenser
+     version: { ref: licenser}
   testLogger:
     group: com.adarshr
     name: gradle-test-logger-plugin
