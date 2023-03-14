@@ -37,6 +37,7 @@ tasks:
       gpg --verbose --batch --import <(echo $GNUPG_KEY|base64 -d) &&
       echo 'pinentry-mode loopback' >> ~/.gnupg/gpg.conf &&
       git config --global user.signingkey $GNUPG_SIGNING_KEY &&
+      source "$HOME/.sdkman/bin/sdkman-init.sh" && 
       git config --global commit.gpgsign true
   - init: sdk install java 17.0.6-tem && sdk install gradle 8.0.2
     command: ./gradlew
