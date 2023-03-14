@@ -2,5 +2,5 @@ name: ${name}
 main: xyz.jpenilla.minimotd.bukkit.BrycensPlayerManagerPlugin
 version: ${version}
 api-version: 1.13
-description: A lightweight, configurable MOTD plugin for Bukkit/Spigot/Paper.
-author: jpenilla
+description: ${description}
+author: ${author}

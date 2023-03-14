@@ -28,6 +28,7 @@ repositories {
 dependencies {
   implementation(libs.indraCommon)
   implementation(libs.shadow)
+    implementation(libs.gitProperties)
   implementation(libs.testLogger)
   implementation(libs.licenser)
 
@@ -36,4 +37,4 @@ dependencies {
 }
 
 
-apply(from="$rootDir/plugin.gradle")
+//apply(from="$rootDir/plugin.gradle")
