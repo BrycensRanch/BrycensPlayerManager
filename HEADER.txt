@@ -1,0 +1,8 @@
+This file is part of BrycensPlayerManager, licensed under the GPL v3 License.
+Copyright (C) BrycensRanch <https://github.com/BrycensRanch>
+Copyright (C) ofunny and contributors
+Copyright (C) spigot-plugin-template team and contributors, thank you for the advanced plugin template!
+Copyright (C) Pl3xmap team and contributors, thank you for the configuration base!
+Copyright (C) BrycensPlayerManager team and contributors, thank you for the cross platform plugin base!
+@author BrycensRanch
+@link https://github.com/BrycensRanch/BrycensPlayerManager
