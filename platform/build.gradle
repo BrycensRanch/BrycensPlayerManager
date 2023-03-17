@@ -14,8 +14,8 @@ subprojects {
 
 dependencies {
     implementation "cloud.commandframework:cloud-core:1.8.2"
-    implementation "cloud.commandframework:cloud-annotations:1.8.2"
-    annotationProcessor("cloud.commandframework:cloud-annotations:1.8.2")
+    implementation "cloud.commandframework:cloud-annotations:1.8.3"
+    annotationProcessor("cloud.commandframework:cloud-annotations:1.8.3")
     implementation "org.projectlombok:lombok:1.18.26";
     implementation "com.fasterxml.jackson.core:jackson-annotations:2.14.2"
     implementation "com.fasterxml.jackson.core:jackson-databind:2.14.2";
