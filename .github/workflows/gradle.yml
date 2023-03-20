@@ -17,6 +17,8 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - uses: dorny/paths-filter@v2
         id: filter
         with:
@@ -41,6 +43,8 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -99,6 +103,8 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -162,6 +168,8 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - uses: actions/download-artifact@v3
         ## I'm definitely too far gone at this point
