@@ -14,6 +14,10 @@ Although this project is directly inspired from BrycensPlayerManager, it has dif
 - Have the option to remove players that have the same or similar skins,usernames, username matches the configured regex, etc.
 - Integration with punishment databases to filter out players that are known to be bad.
 
+## Praise
+
+This project uses JMP’s build logic that has low boilerplate and a universal jar task - I have gone through hell fighting Gradle trying to implement it, but, all credit is given to Jmp. https://github.com/jpenilla/MiniMOTD/blob/v2.0.8/universal/build.gradle.kts Licensed under MIT, so, it’s compatible with our project.
+
 ## Screenshots
 
 > Insert screenshots of plugin here
