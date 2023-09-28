@@ -28,7 +28,7 @@ tasks {
     val replacements = mapOf(
       "modid" to project.name,
       "name" to rootProject.name,
-      "author" to rootProject.findProperty("author")?.toString() ?: "romvnly",
+      "author" to "romvnly",
       "version" to project.version.toString(),
       "description" to project.description.toString(),
       "github_url" to Constants.GITHUB_URL

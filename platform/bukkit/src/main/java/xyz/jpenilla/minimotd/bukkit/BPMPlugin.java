@@ -5,7 +5,6 @@ import io.papermc.lib.PaperLib;
 import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-import org.bstats.bukkit.Metrics;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.CachedServerIcon;
@@ -39,14 +38,12 @@ public final class BPMPlugin extends JavaPlugin implements BPMPlatform<CachedSer
       }
     }
 
-    final PluginCommand command = this.getCommand("minimotd");
+    final PluginCommand command = this.getCommand("bpm");
     if (command != null) {
       final BukkitCommand bukkitCommand = new BukkitCommand(this);
       command.setExecutor(bukkitCommand);
       command.setTabCompleter(bukkitCommand);
     }
-
-    final Metrics metrics = new Metrics(this, 8132);
 
     if (this.brycensPlayerManager.configManager().pluginSettings().updateChecker()) {
       this.getServer().getScheduler().runTaskAsynchronously(this, () ->

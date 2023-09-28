@@ -1,6 +1,12 @@
 name: ${name}
-main: xyz.jpenilla.minimotd.bukkit.BrycensPlayerManagerPlugin
+main: xyz.jpenilla.minimotd.bukkit.BPMPlugin
 version: ${version}
 api-version: 1.13
 description: ${description}
 author: ${author}
+commands:
+    bpm:
+        description: "${name} main command"
+        usage: "bpm help"
+        permission: ${name}.admin
+        permission-message: "You do not have permission to use this command"

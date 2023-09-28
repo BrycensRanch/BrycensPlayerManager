@@ -8,7 +8,6 @@ plugins {
   id("net.kyori.indra.checkstyle")
   id("com.adarshr.test-logger")
 //  id("com.gorylenko.gradle-git-properties")
-  id("org.cadixdev.licenser")
 }
 
 version = (version as String)
@@ -29,6 +28,7 @@ tasks.withType<Jar> {
     attributes["Build-Jdk"] = "${System.getProperty("java.vendor")} ${System.getProperty("java.vm.version")}"
     attributes["Built-By"] = System.getProperty("user.name")
     attributes["Built-On"] = "${System.getProperty("os.arch")} ${System.getProperty("os.name")} ${System.getProperty("os.version")}"
+    attributes["Build-Host"] = System.getenv("HOSTNAME") ?: "null"
     attributes["Build-Date"] = Calendar.getInstance().time.time.toString()
     attributes["Build-Number"] = System.getenv("GITHUB_RUN_NUMBER") ?: "0"
     attributes["Build-Url"] = System.getenv("GITHUB_SERVER_URL")?.let { serverUrl ->
@@ -53,8 +53,11 @@ tasks.withType<Jar> {
     attributes["Build-Sha"] = System.getenv("GITHUB_SHA") ?: "null"
 //    attributes["Build-Revision"] = (project.extra["gitProps"] as Map<String, String>)["git.commit.id"]!!
     attributes["Build-Action"] = System.getenv("GITHUB_ACTION") ?: "null"
-    attributes["Build-Is-Codespace"] = System.getenv("CODESPACES") ?: "null"
+    attributes["Build-Is-Codespace"] = System.getenv("CODESPACES") ?: "no"
     attributes["Build-Codespace-Name"] = System.getenv("CODESPACE_NAME") ?: "null"
+    attributes["Build-Gitpod-Repository"] = System.getenv("GITPOD_WORKSPACE_CONTEXT_URL") ?: "null"
+    attributes["Build-Gitpod-Id"] = System.getenv("GITPOD_WORKSPACE_ID") ?: "null"
+
     attributes["Build-Gitpod-Url"] = System.getenv("GITPOD_WORKSPACE_URL") ?: "null"
   }
   // To avoid the duplicate handling strategy error
@@ -88,13 +91,6 @@ tasks {
         onlyIf { false }
       }
     }
-    license {
-      include '**/*.java'
-
-      matching('**/*.java') {
-          header = file('HEADER.txt')
-      }
-  }
   }
 }
 // Automatically apply Java versioning conventions and have it comply with Semantic Versioning

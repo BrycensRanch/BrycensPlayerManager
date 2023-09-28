@@ -39,12 +39,12 @@ public final class CommandHandler {
         .content(Constants.PluginMetadata.NAME)
         .color(WHITE)
         .append(space())
-        .append(miniMessage("<gradient:#0047AB:#007FFF>" + Constants.PluginMetadata.VERSION))
+        .append(miniMessage("<gradient:#0047AB:#007FFF>" + "v" + Constants.PluginMetadata.VERSION))
         .build(),
       text()
         .content("By ")
         .color(GRAY)
-        .append(text("jmp", WHITE))
+        .append(text("romvnly (BrycensRanch)", WHITE))
         .build(),
       header
     ).forEach(audience::sendMessage);
@@ -73,9 +73,9 @@ public final class CommandHandler {
   public void help(final Audience audience) {
     Stream.of(
       linear(Constants.COMMAND_PREFIX, space(), text(Constants.PluginMetadata.NAME + " command help", WHITE)),
-      commandInfo("minimotd about", "Show information about BrycensPlayerManager"),
-      commandInfo("minimotd reload", "Reload BrycensPlayerManager configuration files"),
-      commandInfo("minimotd help", "Show this help menu")
+      commandInfo("bpm about", "Show information about BrycensPlayerManager"),
+      commandInfo("bpm reload", "Reload BrycensPlayerManager configuration files"),
+      commandInfo("bpm help", "Show this help menu")
     ).forEach(audience::sendMessage);
   }
 

@@ -36,7 +36,7 @@ import xyz.jpenilla.minimotd.common.util.UpdateChecker;
   version = Constants.PluginMetadata.VERSION,
   description = "${description}",
   url = "${url}",
-  authors = {"jmp"}
+  authors = {"romvnly"}
 )
 public final class BrycensPlayerManagerPlugin implements BPMPlatform<Favicon> {
   private static final Set<Class<?>> LISTENER_CLASSES = ImmutableSet.of(

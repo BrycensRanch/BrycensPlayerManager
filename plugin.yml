@@ -1,0 +1,12 @@
+name: BrycensPlayerManager
+main: xyz.jpenilla.minimotd.bukkit.BPMPlugin
+version: 1.0.0
+api-version: 1.13
+description: BrycensPlayerManager but cooler and better and fast async
+author: romvnly
+commands:
+    bpm:
+        description: "BrycensPlayerManager main command"
+        usage: "bpm help"
+        permission: BrycensPlayerManager.admin
+        permission-message: "You do not have permission to use this command"
