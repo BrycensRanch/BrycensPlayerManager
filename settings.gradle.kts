@@ -45,7 +45,7 @@ pluginManagement {
 
 plugins {
     id("ca.stellardrift.polyglot-version-catalogs") version "6.0.1"
-    id("quiet-fabric-loom") version "1.1.181"
+    id("quiet-fabric-loom") version "1.6.278"
 }
 
 rootProject.name = "BrycensPlayerManager"
