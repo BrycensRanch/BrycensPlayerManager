@@ -1,5 +1,5 @@
 
-package xyz.jpenilla.minimotd.common.config;
+package me.brycensranch.BrycensPlayerManager.common.config;
 
 import java.lang.reflect.Type;
 import java.util.concurrent.ThreadLocalRandom;
@@ -8,7 +8,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.serialize.ScalarSerializer;
 import org.spongepowered.configurate.serialize.SerializationException;
-import xyz.jpenilla.minimotd.common.util.Int2IntFunction;
+import me.brycensranch.BrycensPlayerManager.common.util.Int2IntFunction;
 
 public final class PlayerCountModifier implements Int2IntFunction {
   private final String input;

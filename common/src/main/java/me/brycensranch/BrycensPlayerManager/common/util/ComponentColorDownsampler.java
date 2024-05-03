@@ -1,5 +1,5 @@
 
-package xyz.jpenilla.minimotd.common.util;
+package me.brycensranch.BrycensPlayerManager.common.util;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;

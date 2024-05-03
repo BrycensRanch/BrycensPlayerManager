@@ -1,3 +1,5 @@
+import java.util.*
+
 plugins {
   id("net.kyori.blossom")
   id("bpm.base-conventions")
@@ -5,7 +7,7 @@ plugins {
 
 tasks.jar {
   from(rootProject.file("LICENSE")) {
-    rename { "license_${rootProject.name.toLowerCase()}.txt" }
+    rename { "license_${rootProject.name.lowercase(Locale.getDefault())}.txt" }
   }
 }
 
@@ -25,7 +27,7 @@ dependencies {
 }
 
 blossom {
-  val file = "src/main/java/xyz/jpenilla/minimotd/common/Constants.java"
+  val file = "src/main/java/me/brycensranch/BrycensPlayerManager/common/Constants.java"
   mapOf(
     "PLUGIN_NAME" to rootProject.name,
     "PLUGIN_VERSION" to project.version.toString(),

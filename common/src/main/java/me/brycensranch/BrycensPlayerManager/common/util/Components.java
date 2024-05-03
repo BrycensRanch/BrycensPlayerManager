@@ -1,5 +1,5 @@
 
-package xyz.jpenilla.minimotd.common.util;
+package me.brycensranch.BrycensPlayerManager.common.util;
 
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.TextComponent;

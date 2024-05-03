@@ -15,14 +15,16 @@ val platforms = setOf(
 ).map { it.dependencyProject }
 
 val universal = tasks.register<Jar>("universal") {
-    artifacts.add("archives", this)
-    archiveClassifier.set(null as String?)
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    // artifacts.add("archives", this)
+    // archiveClassifier.set(null as String?)
+    // duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
-    for (platform in platforms) {
-        val jarTask = platform.bpmPlatform.jarTask
-        from(zipTree(jarTask.flatMap { it.archiveFile }))
-    }
+    // for (platform in platforms) {
+    //     println("Adding platform $platform to universal jar")
+    //     println("Platform tasks: ${platform.tasks.names}")
+    //     val jarTask = platform.tasks.named<Jar>(":shadowJar")
+    //     from(zipTree(jarTask.flatMap { it.archiveFile }))
+    // }
 }
 
 bpmPlatform {

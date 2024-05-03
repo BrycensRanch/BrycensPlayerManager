@@ -1,5 +1,5 @@
 
-package xyz.jpenilla.minimotd.common.util;
+package me.brycensranch.BrycensPlayerManager.common.util;
 
 @FunctionalInterface
 public interface Int2IntFunction {

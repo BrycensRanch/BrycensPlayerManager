@@ -1,5 +1,5 @@
 
-package xyz.jpenilla.minimotd.bukkit;
+package me.brycensranch.BrycensPlayerManager.bukkit;
 
 import com.google.common.collect.ImmutableList;
 import java.util.Collections;
@@ -10,7 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import xyz.jpenilla.minimotd.common.CommandHandler;
+import me.brycensranch.BrycensPlayerManager.common.CommandHandler;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.event.ClickEvent.runCommand;
 import static net.kyori.adventure.text.format.NamedTextColor.RED;

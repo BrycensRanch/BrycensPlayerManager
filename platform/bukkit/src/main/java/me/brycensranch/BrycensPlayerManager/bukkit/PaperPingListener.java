@@ -1,5 +1,5 @@
 
-package xyz.jpenilla.minimotd.bukkit;
+package me.brycensranch.BrycensPlayerManager.bukkit;
 
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import io.papermc.lib.PaperLib;
@@ -8,10 +8,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.util.CachedServerIcon;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import xyz.jpenilla.minimotd.common.Constants;
-import xyz.jpenilla.minimotd.common.BrycensPlayerManager;
-import xyz.jpenilla.minimotd.common.PingResponse;
-import xyz.jpenilla.minimotd.common.config.BPMConfig;
+import me.brycensranch.BrycensPlayerManager.common.Constants;
+import me.brycensranch.BrycensPlayerManager.common.BrycensPlayerManager;
+import me.brycensranch.BrycensPlayerManager.common.PingResponse;
+import me.brycensranch.BrycensPlayerManager.common.config.BPMConfig;
 
 public final class PaperPingListener implements Listener {
   private final LegacyComponentSerializer unusualHexSerializer = LegacyComponentSerializer.builder().hexColors().useUnusualXRepeatedCharacterHexFormat().build();

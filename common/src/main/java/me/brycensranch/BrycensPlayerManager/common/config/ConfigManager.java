@@ -1,5 +1,5 @@
 
-package xyz.jpenilla.minimotd.common.config;
+package me.brycensranch.BrycensPlayerManager.common.config;
 
 import com.google.common.collect.ImmutableList;
 import java.io.IOException;
@@ -11,13 +11,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import me.brycensranch.BrycensPlayerManager.common.BrycensPlayerManager;
+import me.brycensranch.BrycensPlayerManager.common.util.Pair;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
-import xyz.jpenilla.minimotd.common.BrycensPlayerManager;
-import xyz.jpenilla.minimotd.common.util.Pair;
-
-import static xyz.jpenilla.minimotd.common.util.Pair.pair;
 
 public final class ConfigManager {
 
@@ -88,8 +87,8 @@ public final class ConfigManager {
 
   private void createDefaultExtraConfigs(final @NonNull Path extraConfigsDir) throws ConfigurateException {
     final List<Pair<Path, BPMConfig.MOTD>> defaults = ImmutableList.of(
-      pair(extraConfigsDir.resolve("skyblock.conf"), new BPMConfig.MOTD("<green><italic>Skyblock</green>", "<bold><rainbow>BrycensPlayerManager Skyblock Server")),
-      pair(extraConfigsDir.resolve("survival.conf"), new BPMConfig.MOTD("<gradient:blue:red>Survival Mode Hardcore", "<green><bold>BrycensPlayerManager Survival Server"))
+      Pair.pair(extraConfigsDir.resolve("skyblock.conf"), new BPMConfig.MOTD("<green><italic>Skyblock</green>", "<bold><rainbow>BrycensPlayerManager Skyblock Server")),
+      Pair.pair(extraConfigsDir.resolve("survival.conf"), new BPMConfig.MOTD("<gradient:blue:red>Survival Mode Hardcore", "<green><bold>BrycensPlayerManager Survival Server"))
     );
     for (final Pair<Path, BPMConfig.MOTD> pair : defaults) {
       final ConfigLoader<BPMConfig> loader = new ConfigLoader<>(

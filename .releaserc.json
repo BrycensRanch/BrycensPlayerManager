@@ -3,11 +3,6 @@
     "master",
     "+([0-9])?(.{+([0-9]),x}).x",
     {
-      "name": "beta",
-      "channel": "beta",
-      "prerelease": true
-    },
-    {
       "name": "alpha",
       "channel": "alpha",
       "prerelease": true
@@ -31,7 +26,7 @@
           "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
         },
         "preset": "conventionalcommits",
-        "header": "TownyPlus Changelog",
+        "header": "BrycensPlayerManager Changelog",
         "presetConfig": {
           "types": [
             {
@@ -41,32 +36,6 @@
             },
             { "type": "feat", "section": "✨ Feature ✨", "hidden": false },
             { "type": "fix", "section": "🐛 Bugfix 🐛", "hidden": false },
-            { "type": "docs", "section": "📝  Documentation", "hidden": false },
-            {
-              "type": "chore",
-              "section": "🔨  Misc.",
-              "hidden": false
-            },
-            {
-              "type": "ci",
-              "section": "📦️ Build and CI",
-              "hidden": false
-            },
-            {
-              "type": "refactor",
-              "section": "⚡️ Code Performance",
-              "hidden": false
-            },
-            {
-              "type": "test",
-              "section": "🧪 Code Test",
-              "hidden": false
-            },
-            {
-              "type": "style",
-              "section": "💄 Design",
-              "hidden": false
-            },
             { "type": "HOTFIX", "section": "🔥 Hotfix 🔥", "hidden": false }
           ]
         }
@@ -83,7 +52,7 @@
         "assets": [
           "gradle.properties",
           "CHANGELOG.md",
-          "src/**/*.{java,kt}"
+          "src/**/*.{java,kt,kts}"
         ]
       }
     ],

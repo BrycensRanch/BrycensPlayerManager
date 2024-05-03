@@ -1,5 +1,5 @@
 
-package xyz.jpenilla.minimotd.common;
+package me.brycensranch.BrycensPlayerManager.common;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

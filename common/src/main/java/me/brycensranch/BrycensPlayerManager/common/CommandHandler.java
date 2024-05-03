@@ -1,13 +1,14 @@
 
-package xyz.jpenilla.minimotd.common;
+package me.brycensranch.BrycensPlayerManager.common;
 
 import java.util.stream.Stream;
+
+import me.brycensranch.BrycensPlayerManager.common.util.Components;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;
-import xyz.jpenilla.minimotd.common.util.Components;
 
 import static net.kyori.adventure.text.Component.space;
 import static net.kyori.adventure.text.Component.text;

@@ -1,5 +1,5 @@
 
-package xyz.jpenilla.minimotd.common.util;
+package me.brycensranch.BrycensPlayerManager.common.util;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import xyz.jpenilla.minimotd.common.Constants;
+import me.brycensranch.BrycensPlayerManager.common.Constants;
 
 public final class UpdateChecker {
   private final JsonParser parser = new JsonParser();

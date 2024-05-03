@@ -1,5 +1,5 @@
 
-package xyz.jpenilla.minimotd.common.util;
+package me.brycensranch.BrycensPlayerManager.common.util;
 
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;

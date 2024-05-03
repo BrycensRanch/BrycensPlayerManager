@@ -1,5 +1,5 @@
 
-package xyz.jpenilla.minimotd.common.config;
+package me.brycensranch.BrycensPlayerManager.common.config;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

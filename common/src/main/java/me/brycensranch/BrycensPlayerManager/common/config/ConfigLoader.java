@@ -1,5 +1,5 @@
 
-package xyz.jpenilla.minimotd.common.config;
+package me.brycensranch.BrycensPlayerManager.common.config;
 
 import java.lang.reflect.Method;
 import java.nio.file.Path;

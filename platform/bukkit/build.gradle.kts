@@ -39,18 +39,3 @@ tasks {
     }
   }
 }
-//bukkit {
-//  name = rootProject.name
-//  main = "xyz.jpenilla.minimotd.bukkit.BrycensPlayerManagerPlugin"
-//  apiVersion = "1.13"
-//  website = Constants.GITHUB_URL
-//  author = "jmp"
-//  softDepend = listOf("ViaVersion")
-//  commands {
-//    register("minimotd") {
-//      description = "BrycensPlayerManager Command"
-//      usage = "/minimotd help"
-//      permission = "minimotd.admin"
-//    }
-//  }
-//}

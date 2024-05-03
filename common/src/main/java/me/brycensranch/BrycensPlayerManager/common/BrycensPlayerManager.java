@@ -1,8 +1,11 @@
 
-package xyz.jpenilla.minimotd.common;
+package me.brycensranch.BrycensPlayerManager.common;
 
 import java.nio.file.Path;
 import java.util.concurrent.ThreadLocalRandom;
+
+import me.brycensranch.BrycensPlayerManager.common.config.BPMConfig;
+import me.brycensranch.BrycensPlayerManager.common.util.Components;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -11,9 +14,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.slf4j.Logger;
-import xyz.jpenilla.minimotd.common.config.ConfigManager;
-import xyz.jpenilla.minimotd.common.config.BPMConfig;
-import xyz.jpenilla.minimotd.common.util.Components;
+import me.brycensranch.BrycensPlayerManager.common.config.ConfigManager;
 
 import static net.kyori.adventure.text.Component.newline;
 

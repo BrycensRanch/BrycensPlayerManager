@@ -1,5 +1,5 @@
 
-package xyz.jpenilla.minimotd.common;
+package me.brycensranch.BrycensPlayerManager.common;
 
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;

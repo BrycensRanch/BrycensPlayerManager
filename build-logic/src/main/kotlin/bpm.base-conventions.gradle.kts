@@ -20,6 +20,10 @@ indra {
   }
   github(Constants.GITHUB_USER, Constants.GITHUB_REPO)
 }
+//configure<com.gorylenko.GitPropertiesPluginExtension> {
+//      failOnNoGitDirectory = false
+//      extProperty = "gitProps" // git properties will be put in a map at project.ext.gitProps
+//}
 
 tasks.withType<Jar> {
   manifest {
@@ -51,6 +55,9 @@ tasks.withType<Jar> {
     attributes["Build-Head-Ref"] = System.getenv("GITHUB_HEAD_REF") ?: "null"
     attributes["Build-Base-Ref"] = System.getenv("GITHUB_BASE_REF") ?: "null"
     attributes["Build-Sha"] = System.getenv("GITHUB_SHA") ?: "null"
+    attributes["Build-PR"] = System.getenv("GITHUB_PR_NUMBER") ?: "null"
+    attributes["Build-Tag"] = System.getenv("GITHUB_TAG") ?: "null"
+    attributes["Build-Branch"] = System.getenv("GITHUB_BRANCH") ?: "null"
 //    attributes["Build-Revision"] = (project.extra["gitProps"] as Map<String, String>)["git.commit.id"]!!
     attributes["Build-Action"] = System.getenv("GITHUB_ACTION") ?: "null"
     attributes["Build-Is-Codespace"] = System.getenv("CODESPACES") ?: "no"

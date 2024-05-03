@@ -1,5 +1,5 @@
 name: ${name}
-main: xyz.jpenilla.minimotd.bukkit.BPMPlugin
+main: me.brycensranch.BrycensPlayerManager.bukkit.BPMPlugin
 version: ${version}
 api-version: 1.13
 description: ${description}

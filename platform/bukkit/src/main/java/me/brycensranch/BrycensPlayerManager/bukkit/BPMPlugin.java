@@ -1,5 +1,5 @@
 
-package xyz.jpenilla.minimotd.bukkit;
+package me.brycensranch.BrycensPlayerManager.bukkit;
 
 import io.papermc.lib.PaperLib;
 import java.awt.image.BufferedImage;
@@ -12,9 +12,9 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.jpenilla.minimotd.common.BrycensPlayerManager;
-import xyz.jpenilla.minimotd.common.BPMPlatform;
-import xyz.jpenilla.minimotd.common.util.UpdateChecker;
+import me.brycensranch.BrycensPlayerManager.common.BrycensPlayerManager;
+import me.brycensranch.BrycensPlayerManager.common.BPMPlatform;
+import me.brycensranch.BrycensPlayerManager.common.util.UpdateChecker;
 
 public final class BPMPlugin extends JavaPlugin implements BPMPlatform<CachedServerIcon> {
   private static final boolean PAPER_PING_EVENT_EXISTS = findClass("com.destroystokyo.paper.event.server.PaperServerListPingEvent") != null;

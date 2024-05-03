@@ -1,5 +1,5 @@
 
-package xyz.jpenilla.minimotd.common.config;
+package me.brycensranch.BrycensPlayerManager.common.config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,9 +7,9 @@ import java.util.List;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
-import xyz.jpenilla.minimotd.common.PingResponse;
+import me.brycensranch.BrycensPlayerManager.common.PingResponse;
 
-import static xyz.jpenilla.minimotd.common.PingResponse.PlayerCount.playerCount;
+import static me.brycensranch.BrycensPlayerManager.common.PingResponse.PlayerCount.playerCount;
 
 @ConfigSerializable
 public final class BPMConfig {
