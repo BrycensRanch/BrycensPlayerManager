@@ -1,5 +1,5 @@
 plugins {
-  id("com.github.johnrengelman.shadow") version "8.1.0"
+  id("com.github.johnrengelman.shadow") version "8.1.1"
 //    id "com.github.sherter.google-java-format" version "0.9"
 //    id "com.github.spotbugs" version "5.0.13"
   id("com.gorylenko.gradle-git-properties") version "2.4.1"
