@@ -26,15 +26,14 @@ dependencies {
   compileOnlyApi(libs.guava)
 }
 
-blossom {
-  val file = "src/main/java/me/brycensranch/BrycensPlayerManager/common/Constants.java"
-  mapOf(
-    "PLUGIN_NAME" to rootProject.name,
-    "PLUGIN_VERSION" to project.version.toString(),
-    "PLUGIN_WEBSITE" to Constants.GITHUB_URL,
-    "GITHUB_USER" to Constants.GITHUB_USER,
-    "GITHUB_REPO" to Constants.GITHUB_REPO
-  ).forEach { (k, v) ->
-    replaceToken("\${$k}", v, file)
+sourceSets.main {
+  blossom {
+    javaSources {
+      property("PLUGIN_NAME", rootProject.name)
+      property("PLUGIN_VERSION", project.version.toString())
+      property("PLUGIN_WEBSITE", Constants.GITHUB_URL)
+      property("GITHUB_USER", Constants.GITHUB_USER)
+      property("GITHUB_REPO", Constants.GITHUB_REPO)
+    }
   }
 }
