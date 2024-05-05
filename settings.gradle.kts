@@ -32,7 +32,6 @@ dependencyResolutionManagement {
 
 pluginManagement {
     repositories {
-        mavenCentral()
         gradlePluginPortal()
         maven("https://maven.fabricmc.net/")
         maven("https://maven.minecraftforge.net")
@@ -45,8 +44,7 @@ pluginManagement {
 }
 
 plugins {
-    id("ca.stellardrift.polyglot-version-catalogs") version "6.1.0"
-    id("quiet-fabric-loom") version "1.6.278"
+  id("quiet-fabric-loom") version "1.6-SNAPSHOT"
 }
 
 rootProject.name = "BrycensPlayerManager"

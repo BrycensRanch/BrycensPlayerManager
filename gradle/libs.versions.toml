@@ -1,18 +1,16 @@
-[metadata]
-polyglot-extensions = [ "plugins" ]
-
-  [metadata.format]
-  version = 1
-
 [plugins]
-"net.kyori.blossom" = "2.1.0"
-"org.spongepowered.gradle.plugin" = "2.2.0"
-"net.minecrell.plugin-yml.bungee" = "0.6.0"
-"net.minecrell.plugin-yml.bukkit" = "0.6.0"
-"xyz.jpenilla.run-paper" = "2.3.0"
-"org.cadixdev.licenser" = "0.6.1"
+blossom = { id = "net.kyori.blossom", version = "2.1.0" }
+sponge-gradle-plugin = { id = "org.spongepowered.gradle.plugin", version = "2.2.0" }
+plugin-yml-bukkit = { id = "net.minecrell.plugin-yml.bukkit", version.ref = "plugin-yml" }
+plugin-yml-bungee = { id = "net.minecrell.plugin-yml.bungee", version.ref = "plugin-yml" }
+run-paper = { id = "xyz.jpenilla.run-paper", version.ref = "run-task" }
+run-velocity = { id = "xyz.jpenilla.run-velocity", version.ref = "run-task" }
+run-waterfall = { id = "xyz.jpenilla.run-waterfall", version.ref = "run-task" }
+licenser = { id = "org.cadixdev.licenser", version = "0.6.1" }
 
 [versions]
+plugin-yml = "0.6.0"
+run-task = "2.3.0"
 indra = "3.1.3"
 shadow = "8.1.7"
 gitProperties = "2.4.1"
@@ -37,221 +35,41 @@ velocityApi = "3.3.0-SNAPSHOT"
 licenser = "0.6.1"
 jupiterEngine = "5.10.2"
 
-[dependencies.adventureBom]
-group = "net.kyori"
-name = "adventure-bom"
+[libraries]
+adventureBom = { group = "net.kyori", name = "adventure-bom", version.ref = "adventure" }
+adventureApi = { group = "net.kyori", name = "adventure-api" }
+adventureTextSerializerPlain = { group = "net.kyori", name = "adventure-text-serializer-plain" }
+adventureTextSerializerGson = { group = "net.kyori", name = "adventure-text-serializer-gson" }
+adventurePlatformBungeecord = { group = "net.kyori", name = "adventure-platform-bungeecord", version.ref = "adventurePlatform" }
+adventurePlatformBukkit = { group = "net.kyori", name = "adventure-platform-bukkit", version.ref = "adventurePlatform" }
+adventurePlatformFabric = { group = "net.kyori", name = "adventure-platform-fabric", version.ref = "adventurePlatformFabric" }
+adventurePlatformSpongeApi = { group = "net.kyori", name = "adventure-platform-spongeapi", version.ref = "adventurePlatform" }
+minimessage = { group = "net.kyori", name = "adventure-text-minimessage" }
+configurateHocon = { group = "org.spongepowered", name = "configurate-hocon", version.ref = "configurate" }
+checkerQual = { group = "org.checkerframework", name = "checker-qual", version.ref = "checkerQual" }
+slf4jApi = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
+slf4jJdk14 = { group = "org.slf4j", name = "slf4j-jdk14", version.ref = "slf4j" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
+bstatsBukkit = { group = "org.bstats", name = "bstats-bukkit", version.ref = "bstats" }
+bstatsBungeecord = { group = "org.bstats", name = "bstats-bungeecord", version.ref = "bstats" }
+bstatsVelocity = { group = "org.bstats", name = "bstats-velocity", version.ref = "bstats" }
+bstatsSponge = { group = "org.bstats", name = "bstats-sponge", version.ref = "bstats" }
+paperApi = { group = "com.destroystokyo.paper", name = "paper-api", version.ref = "paperApi" }
+paperlib = { group = "io.papermc", name = "paperlib", version.ref = "paperlib" }
+waterfallApi = { group = "io.github.waterfallmc", name = "waterfall-api", version.ref = "waterfallApi" }
+fabricApi = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabricApi" }
+fabricLoader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabricLoader" }
+fabricMinecraft = { group = "com.mojang", name = "minecraft", version.ref = "fabricMinecraft" }
+spongeApi7 = { group = "org.spongepowered", name = "spongeapi", version.ref = "spongeApi7" }
+velocityApi = { group = "com.velocitypowered", name = "velocity-api", version.ref = "velocityApi" }
+jupiterEngine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "jupiterEngine" }
 
-  [dependencies.adventureBom.version]
-  ref = "adventure"
+# build-logic
+indra = { group = "net.kyori", name = "indra-common", version.ref = "indra" }
+shadow = { group = "io.github.goooler.shadow", name = "shadow-gradle-plugin", version.ref = "shadow" }
+licenser = { group = "org.cadixdev.licenser", name = "licenser", version.ref = "licenser" }
+gitProperties = { group = "com.gorylenko.gradle-git-properties", name = "gradle-git-properties", version.ref = "gitProperties" }
+testLogger = { grotestLoggerup = "com.adarshr", name = "gradle-test-logger-plugin", version.ref = "testLoggerPlugin" }
 
-[dependencies.adventureApi]
-group = "net.kyori"
-name = "adventure-api"
-
-[dependencies.adventureTextSerializerPlain]
-group = "net.kyori"
-name = "adventure-text-serializer-plain"
-
-[dependencies.adventureTextSerializerGson]
-group = "net.kyori"
-name = "adventure-text-serializer-gson"
-
-[dependencies.adventurePlatformBungeecord]
-group = "net.kyori"
-name = "adventure-platform-bungeecord"
-
-  [dependencies.adventurePlatformBungeecord.version]
-  ref = "adventurePlatform"
-
-[dependencies.adventurePlatformBukkit]
-group = "net.kyori"
-name = "adventure-platform-bukkit"
-
-  [dependencies.adventurePlatformBukkit.version]
-  ref = "adventurePlatform"
-
-[dependencies.adventurePlatformFabric]
-group = "net.kyori"
-name = "adventure-platform-fabric"
-
-  [dependencies.adventurePlatformFabric.version]
-  ref = "adventurePlatformFabric"
-
-[dependencies.adventurePlatformSpongeApi]
-group = "net.kyori"
-name = "adventure-platform-spongeapi"
-
-  [dependencies.adventurePlatformSpongeApi.version]
-  ref = "adventurePlatform"
-
-[dependencies.minimessage]
-group = "net.kyori"
-name = "adventure-text-minimessage"
-
-[dependencies.configurateHocon]
-group = "org.spongepowered"
-name = "configurate-hocon"
-
-  [dependencies.configurateHocon.version]
-  ref = "configurate"
-
-[dependencies.checkerQual]
-group = "org.checkerframework"
-name = "checker-qual"
-
-  [dependencies.checkerQual.version]
-  ref = "checkerQual"
-
-[dependencies.slf4jApi]
-group = "org.slf4j"
-name = "slf4j-api"
-
-  [dependencies.slf4jApi.version]
-  ref = "slf4j"
-
-[dependencies.slf4jJdk14]
-group = "org.slf4j"
-name = "slf4j-jdk14"
-
-  [dependencies.slf4jJdk14.version]
-  ref = "slf4j"
-
-[dependencies.gson]
-group = "com.google.code.gson"
-name = "gson"
-
-  [dependencies.gson.version]
-  ref = "gson"
-
-[dependencies.guava]
-group = "com.google.guava"
-name = "guava"
-
-  [dependencies.guava.version]
-  ref = "guava"
-
-[dependencies.bstatsBukkit]
-group = "org.bstats"
-name = "bstats-bukkit"
-
-  [dependencies.bstatsBukkit.version]
-  ref = "bstats"
-
-[dependencies.bstatsBungeecord]
-group = "org.bstats"
-name = "bstats-bungeecord"
-
-  [dependencies.bstatsBungeecord.version]
-  ref = "bstats"
-
-[dependencies.bstatsVelocity]
-group = "org.bstats"
-name = "bstats-velocity"
-
-  [dependencies.bstatsVelocity.version]
-  ref = "bstats"
-
-[dependencies.bstatsSponge]
-group = "org.bstats"
-name = "bstats-sponge"
-
-  [dependencies.bstatsSponge.version]
-  ref = "bstats"
-
-[dependencies.paperApi]
-group = "com.destroystokyo.paper"
-name = "paper-api"
-
-  [dependencies.paperApi.version]
-  ref = "paperApi"
-
-[dependencies.paperlib]
-group = "io.papermc"
-name = "paperlib"
-
-  [dependencies.paperlib.version]
-  ref = "paperlib"
-
-[dependencies.waterfallApi]
-group = "io.github.waterfallmc"
-name = "waterfall-api"
-
-  [dependencies.waterfallApi.version]
-  ref = "waterfallApi"
-
-[dependencies.fabricApi]
-group = "net.fabricmc.fabric-api"
-name = "fabric-api"
-
-  [dependencies.fabricApi.version]
-  ref = "fabricApi"
-
-[dependencies.fabricLoader]
-group = "net.fabricmc"
-name = "fabric-loader"
-
-  [dependencies.fabricLoader.version]
-  ref = "fabricLoader"
-
-[dependencies.fabricMinecraft]
-group = "com.mojang"
-name = "minecraft"
-
-  [dependencies.fabricMinecraft.version]
-  ref = "fabricMinecraft"
-
-[dependencies.spongeApi7]
-group = "org.spongepowered"
-name = "spongeapi"
-
-  [dependencies.spongeApi7.version]
-  ref = "spongeApi7"
-
-[dependencies.velocityApi]
-group = "com.velocitypowered"
-name = "velocity-api"
-
-  [dependencies.velocityApi.version]
-  ref = "velocityApi"
-
-[dependencies.jupiterEngine]
-group = "org.junit.jupiter"
-name = "junit-jupiter-engine"
-
-  [dependencies.jupiterEngine.version]
-  ref = "jupiterEngine"
-
-[dependencies.indraCommon]
-group = "net.kyori"
-name = "indra-common"
-
-  [dependencies.indraCommon.version]
-  ref = "indra"
-
-[dependencies.shadow]
-group = "io.github.goooler.shadow"
-name = "shadow-gradle-plugin"
-
-  [dependencies.shadow.version]
-  ref = "shadow"
-
-[dependencies.licenser]
-group = "org.cadixdev.licenser"
-name = "licenser"
-
-  [dependencies.licenser.version]
-  ref = "licenser"
-
-[dependencies.gitProperties]
-group = "com.gorylenko.gradle-git-properties"
-name = "gradle-git-properties"
-
-  [dependencies.gitProperties.version]
-  ref = "gitProperties"
-
-[dependencies.testLogger]
-group = "com.adarshr"
-name = "gradle-test-logger-plugin"
-
-  [dependencies.testLogger.version]
-  ref = "testLoggerPlugin"
+[bundles]
