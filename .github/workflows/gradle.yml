@@ -48,7 +48,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin' # See 'Supported distributions' for available options
-          java-version: 21
+          java-version: 21.0.12+101.0.LTS
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
 
@@ -107,7 +107,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin' # See 'Supported distributions' for available options
-          java-version: 21
+          java-version: 21.0.12+101.0.LTS
           
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
@@ -177,7 +177,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin' # See 'Supported distributions' for available options
-          java-version: 21
+          java-version: 21.0.12+101.0.LTS
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
