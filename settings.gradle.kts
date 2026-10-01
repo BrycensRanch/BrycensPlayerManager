@@ -44,7 +44,7 @@ pluginManagement {
 }
 
 plugins {
-  id("quiet-fabric-loom") version "1.6-SNAPSHOT"
+  id("quiet-fabric-loom") version "1.18.344"
 }
 
 rootProject.name = "BrycensPlayerManager"
